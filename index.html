@@ -1,0 +1,167 @@
+<html>
+<head>
+   
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            perspective: 1000px;
+            background-color: teal;
+            
+        }
+
+        .quadrado {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotatex(45deg) rotatey(45deg);
+            transition: transform 0.1s ease;
+            cursor: grab;
+        }   
+
+        .quadrado.grabbing {
+            cursor: grabbing;
+        }
+
+        .quadrado > div:not(.innerdiv) {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            transform-origin: center;
+            border: 5px solid black;
+            box-sizing: border-box;
+
+        }
+        .inner { 
+            background-color: green; 
+            transform: translateX(-200px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(90deg) rotateZ(0deg) 
+        }
+        .inner2 { 
+            background-color: orange; 
+            transform: translateX(0px) translateY(-200px) translateZ(0px) rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+        }
+        .inner3 { 
+            background-color: lightgreen; 
+            transform: translateX(200px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(90deg) rotateZ(0deg); 
+        }
+        .inner4 { 
+            background-color: gold; 
+            transform: translateX(0px) translateY(0px) translateZ(200px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); 
+        }
+        .inner5 { 
+            background-color: cyan; 
+            transform: translateX(0px) translateY(0px) translateZ(-200px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); 
+        }
+        .inner6 { 
+            background-color: purple; 
+            transform: translateX(0px) translateY(200px) translateZ(0px) rotateX(90deg) rotateY(0deg) rotateZ(0deg); 
+            
+        } 
+       
+        .innerdiv {
+            width: 60px; 
+            height: 60px; 
+            background-color: white;
+            border: solid black 5px; 
+            border-radius: 50%;   
+            position: absolute;
+            
+            
+        }
+
+        .ball1 { top: 10%; left: 5%; }
+        .ball2 { top: 10%; left: 40%; }
+        .ball3 { top: 10%; left: 80%; }
+        .ball4 { top: 75%; left: 5%; }
+        .ball5 { top: 75%; left: 40%; }
+        .ball6 { top: 75%; left: 80%; }
+        .ball7 { top: 43%; left: 40%; }
+       
+        
+    </style>
+</head>
+<body>
+    <div class="quadrado">
+        <div class="inner">                 
+            <div class="innerdiv ball1"></div>
+            <div class="innerdiv ball6"></div>
+            <div class="innerdiv ball7"></div>
+        </div>
+        <div class="inner2">
+            <div class="innerdiv ball7"></div>
+        </div>
+        <div class="inner3">
+            <div class="innerdiv ball1"></div>
+            <div class="innerdiv ball3"></div>
+            <div class="innerdiv ball4"></div>
+            <div class="innerdiv ball6"></div>
+          </div> 
+        
+        <div class="inner4">
+            <div class="innerdiv ball3"></div>
+            <div class="innerdiv ball4"></div>
+         </div>
+        <div class="inner5">
+            <div class="innerdiv ball1"></div>
+            <div class="innerdiv ball3"></div>
+            <div class="innerdiv ball4"></div>
+            <div class="innerdiv ball6"></div>
+            <div class="innerdiv ball7"></div>
+          </div>
+        <div class="inner6">
+            <div class="innerdiv ball1"></div>
+            <div class="innerdiv ball2"></div>
+            <div class="innerdiv ball3"></div>
+            <div class="innerdiv ball4"></div>
+            <div class="innerdiv ball5"></div>
+            <div class="innerdiv ball6"></div>
+            
+        </div>
+    </div>
+    <script>
+        const quadrado = document.querySelector('.quadrado');
+        let isDragging = false;
+        let previousMouseX, previousMouseY;
+        let rotateX = 45, rotateY = 45;  
+
+        quadrado.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            quadrado.classList.add('grabbing');
+            previousMouseX = e.clientX;
+            previousMouseY = e.clientY;
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+
+            const deltaX = e.clientX - previousMouseX;
+            const deltaY = e.clientY - previousMouseY;
+
+            rotateY += deltaX * 0.5;  
+            rotateX -= deltaY * 0.5; 
+
+            quadrado.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+            previousMouseX = e.clientX;
+            previousMouseY = e.clientY;
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            quadrado.classList.remove('grabbing');
+        });
+
+      
+    </script>
+
+    <style> 
+        button {
+            background-color: blanchedalmond;
+        }
+    </style>
+</body>
+</html>
